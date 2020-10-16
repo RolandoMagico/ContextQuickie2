@@ -36,6 +36,8 @@ public class ExplorerContextMenuEntry
   
   private boolean isSeperator;
   
+  private long imageHandle;
+  
   public Iterable<ExplorerContextMenuEntry> getEntries()
   {
     return this.entries;
@@ -74,5 +76,15 @@ public class ExplorerContextMenuEntry
   public void setSeperator(boolean value)
   {
     this.isSeperator = value;
+  }
+
+  public long getImageHandle()
+  {
+    return this.imageHandle;
+  }
+
+  public void setImageHandle(long value)
+  {
+    this.imageHandle = value;
   }
 }

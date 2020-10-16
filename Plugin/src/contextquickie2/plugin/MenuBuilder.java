@@ -35,10 +35,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -133,7 +138,15 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       commandParameter.parameters = parameters;
       commandParameter.label = entry.getText();
       
-      // TODO: commandParameter.icon = contextquickie.Activator.getImageDescriptor("icons/BeyondCompare/Compare.png");
+      if (entry.getImageHandle() != 0)
+      {
+        Image image = Image.win32_new(Display.getCurrent(), SWT.BITMAP, entry.getImageHandle());
+        ImageData imageData = image.getImageData();
+        imageData.transparentPixel = 0;
+        Image transparentImage = new Image(Display.getCurrent(), imageData);
+        commandParameter.icon = ImageDescriptor.createFromImage(transparentImage);
+      }
+
       result = new CommandContributionItem(commandParameter);
     }
 
