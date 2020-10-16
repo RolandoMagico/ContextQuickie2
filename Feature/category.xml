@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <bundle id="ContextQuickie2" version="1.0.0.qualifier">
+      <category name="ContextQuickie2"/>
+   </bundle>
+   <category-def name="ContextQuickie2" label="ContextQuickie2"/>
+</site>
