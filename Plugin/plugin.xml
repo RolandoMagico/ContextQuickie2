@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="contextquickie2.plugin.CommandHandler"
+            id="ContextQuickie2.Command"
+            name="ContextQuickie2.Command">
+         <commandParameter
+               id="ContextQuickie2.Command.CommandId"
+               name="ContextQuickie2.Command.CommandId"
+               optional="false"
+               typeId="org.eclipse.ui.dialogs.Integer">
+         </commandParameter>
+         <commandParameter
+               id="ContextQuickie2.Command.ExplorerContextMenu"
+               name="ContextQuickie2.Command.ExplorerContextMenu"
+               optional="false"
+               typeId="explorercontextmenu.menu.ExplorerContextMenu">
+         </commandParameter>
+      </command>
+      <commandParameterType
+            converter="contextquickie2.plugin.ObjectParameterConverter"
+            id="explorercontextmenu.menu.ExplorerContextMenu"
+            type="explorercontextmenu.menu.ExplorerContextMenu">
+      </commandParameterType>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution
+               locationURI="popup:org.eclipse.ui.popup.any?before=additions">
+            <separator
+                  name="ContextQuickie2.SeparatorBeforeMenu"
+                  visible="true">
+            </separator>
+            <dynamic
+                  class="contextquickie2.plugin.MenuBuilder"
+                  id="contextquickie2.plugin.MenuBuilder">
+            </dynamic>
+            <separator
+                  name="ContextQuickie2.SeparatorAfterMenu"
+                  visible="true">
+            </separator>
+         </menuContribution>
+   </extension>
+</plugin>

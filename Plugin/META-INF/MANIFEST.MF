@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ContextQuickie2
+Bundle-SymbolicName: ContextQuickie2;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: contextquickie2.plugin.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jface.text
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: ContextQuickie
+Automatic-Module-Name: ContextQuickie2
