@@ -80,11 +80,19 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
         contextMenu.setText("Explorer");
       }
     }
-      
-    IContributionItem menuRoot = this.createMenuEntry(contextMenu);
-    if (menuRoot != null)
+
+    if (this.contextMenu != null)
     {
-      result = new IContributionItem[] { menuRoot };      
+      IContributionItem menuRoot = this.createMenuEntry(contextMenu);
+      if (menuRoot != null)
+      {
+        result = new IContributionItem[] { menuRoot };
+      }
+      this.setVisible(true);
+    }
+    else
+    {
+      this.setVisible(false);
     }
     
     return result;
