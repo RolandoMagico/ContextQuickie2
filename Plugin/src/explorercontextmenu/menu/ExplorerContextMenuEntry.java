@@ -38,6 +38,8 @@ public class ExplorerContextMenuEntry
   
   private long imageHandle;
   
+  private long nativeHandle;
+  
   public Iterable<ExplorerContextMenuEntry> getEntries()
   {
     return this.entries;
@@ -87,4 +89,16 @@ public class ExplorerContextMenuEntry
   {
     this.imageHandle = value;
   }
+ 
+  public long getNativeHandle()
+  {
+    return this.nativeHandle;
+  }
+
+  public void setNativeHandle(long value)
+  {
+    this.nativeHandle = value;
+  }
+  
+  public native void executeCommand(int commandId);
 }

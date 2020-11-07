@@ -134,7 +134,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       // Create map of parameters for the command
       final Map<String, Object> parameters = new HashMap<String, Object>();
       parameters.put(ParameterCommandId, entry.getCommandId());
-      parameters.put(ParameterExplorerContextMenu, this.contextMenu);
+      parameters.put(ParameterExplorerContextMenu, entry);
       commandParameter.parameters = parameters;
       commandParameter.label = entry.getText();
       

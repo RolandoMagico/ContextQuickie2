@@ -28,7 +28,7 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
   static
   {
     final String archDataModel = System.getProperty("sun.arch.data.model");
-    System.loadLibrary("libraries/ContextMenuProvider.Java." + archDataModel);
+    System.loadLibrary("libraries/ExplorerContextMenu.Java." + archDataModel);
   }
 
   public ExplorerContextMenu(String[] paths)
@@ -37,6 +37,4 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
   }
   
   private native void getEntries(String[] paths);
-  
-  public native void executeCommand(int commandId);
 }
