@@ -115,7 +115,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     {
       final MenuManager subMenu = new MenuManager(entry.getText(), null, null);
       Iterator<ExplorerContextMenuEntry> iterator = entry.getEntries().iterator();
-      
+      subMenu.setImageDescriptor(this.convertImageHandleToImageDescriptor(entry.getImageHandle()));
       while (iterator.hasNext())
       {
         subMenu.add(this.createMenuEntry(iterator.next()));
@@ -137,16 +137,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       parameters.put(ParameterExplorerContextMenu, entry);
       commandParameter.parameters = parameters;
       commandParameter.label = entry.getText();
-      
-      if (entry.getImageHandle() != 0)
-      {
-        Image image = Image.win32_new(Display.getCurrent(), SWT.BITMAP, entry.getImageHandle());
-        ImageData imageData = image.getImageData();
-        imageData.transparentPixel = 0;
-        Image transparentImage = new Image(Display.getCurrent(), imageData);
-        commandParameter.icon = ImageDescriptor.createFromImage(transparentImage);
-      }
-
+      commandParameter.icon = this.convertImageHandleToImageDescriptor(entry.getImageHandle());
       result = new CommandContributionItem(commandParameter);
     }
 
@@ -213,4 +204,18 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     return path;
   }
 
+  private ImageDescriptor convertImageHandleToImageDescriptor(long imageHandle)
+  {
+    ImageDescriptor result = null;
+  	if (imageHandle != 0)
+  	{
+  	  Image image = Image.win32_new(Display.getCurrent(), SWT.BITMAP, imageHandle);
+  	  ImageData imageData = image.getImageData();
+  	  imageData.transparentPixel = 0;
+  	  Image transparentImage = new Image(Display.getCurrent(), imageData);
+  	  result = ImageDescriptor.createFromImage(transparentImage);
+  	}
+  	
+  	return result;
+  }
 }
