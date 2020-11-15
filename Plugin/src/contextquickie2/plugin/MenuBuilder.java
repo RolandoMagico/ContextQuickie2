@@ -96,6 +96,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     }
     else
     {
+      result = new IContributionItem[0];
       this.setVisible(false);
     }
     
