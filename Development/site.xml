@@ -12,5 +12,8 @@
    <feature url="features/ContextQuickie2_0.1.0.202011080952.jar" id="ContextQuickie2" version="0.1.0.202011080952" os="win32" arch="x86,x86_64">
       <category name="ContextQuickie2"/>
    </feature>
+   <feature url="features/ContextQuickie2_0.1.0.202011151509.jar" id="ContextQuickie2" version="0.1.0.202011151509" os="win32" arch="x86,x86_64">
+      <category name="ContextQuickie2"/>
+   </feature>
    <category-def name="ContextQuickie2" label="Context Quickie2"/>
 </site>
