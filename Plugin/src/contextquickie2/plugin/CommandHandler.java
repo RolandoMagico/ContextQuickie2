@@ -34,15 +34,13 @@ public class CommandHandler extends AbstractHandler
   @Override
   public Object execute(ExecutionEvent event) throws ExecutionException
   {
-    Object commandIdObject = event.getObjectParameterForExecution(MenuBuilder.ParameterCommandId);
     Object contextMenuObject = event.getObjectParameterForExecution(MenuBuilder.ParameterExplorerContextMenu);
-    if ((commandIdObject != null) && (contextMenuObject != null))
+    if (contextMenuObject != null)
     {
-      if (Integer.class.isInstance(commandIdObject) && ExplorerContextMenuEntry.class.isInstance(contextMenuObject))
+      if (ExplorerContextMenuEntry.class.isInstance(contextMenuObject))
       {
-        int commandId = Integer.class.cast(commandIdObject);
         ExplorerContextMenuEntry entry = ExplorerContextMenuEntry.class.cast(contextMenuObject);
-        entry.executeCommand(commandId);
+        entry.executeCommand();
       }
     }
     return null;

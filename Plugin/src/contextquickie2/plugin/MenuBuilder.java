@@ -62,9 +62,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
   
   private ExplorerContextMenu contextMenu;
   
-  public static final String ParameterCommandId = "ContextQuickie2.Command.CommandId";
-  
-  public static final String ParameterExplorerContextMenu = "ContextQuickie2.Command.ExplorerContextMenu";
+  public static final String ParameterExplorerContextMenu = "ContextQuickie2.Command.ExplorerContextMenuEntry";
 
   @Override
   public void initialize(IServiceLocator serviceLocator)
@@ -78,6 +76,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     IContributionItem[] result = null;
     if (this.contextMenu == null)
     {
+      ObjectParameterConverter.clearEntries();
       Set<String> selectedResources = this.getSelectedResources();
       if (selectedResources.isEmpty() == false)
       {
@@ -133,7 +132,6 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
 
       // Create map of parameters for the command
       final Map<String, Object> parameters = new HashMap<String, Object>();
-      parameters.put(ParameterCommandId, entry.getCommandId());
       parameters.put(ParameterExplorerContextMenu, entry);
       commandParameter.parameters = parameters;
       commandParameter.label = entry.getText();

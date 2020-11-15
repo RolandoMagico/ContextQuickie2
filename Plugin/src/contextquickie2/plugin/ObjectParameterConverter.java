@@ -30,7 +30,7 @@ import org.eclipse.core.commands.ParameterValueConversionException;
 
 public class ObjectParameterConverter extends AbstractParameterValueConverter
 {
-  private Map<String, Object> entries = new HashMap<String, Object>();
+  private static Map<String, Object> entries = new HashMap<String, Object>();
 
   @Override
   public Object convertToObject(String parameterValue) throws ParameterValueConversionException
@@ -50,4 +50,8 @@ public class ObjectParameterConverter extends AbstractParameterValueConverter
     return hashCode;
   }
 
+  public static void clearEntries()
+  {
+    entries.clear();
+  }
 }

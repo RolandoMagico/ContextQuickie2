@@ -100,5 +100,5 @@ public class ExplorerContextMenuEntry
     this.nativeHandle = value;
   }
   
-  public native void executeCommand(int commandId);
+  public native void executeCommand();
 }

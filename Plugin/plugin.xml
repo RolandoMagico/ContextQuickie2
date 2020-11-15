@@ -8,22 +8,16 @@
             id="ContextQuickie2.Command"
             name="ContextQuickie2.Command">
          <commandParameter
-               id="ContextQuickie2.Command.CommandId"
-               name="ContextQuickie2.Command.CommandId"
+               id="ContextQuickie2.Command.ExplorerContextMenuEntry"
+               name="ContextQuickie2.Command.ExplorerContextMenuEntry"
                optional="false"
-               typeId="org.eclipse.ui.dialogs.Integer">
-         </commandParameter>
-         <commandParameter
-               id="ContextQuickie2.Command.ExplorerContextMenu"
-               name="ContextQuickie2.Command.ExplorerContextMenu"
-               optional="false"
-               typeId="explorercontextmenu.menu.ExplorerContextMenu">
+               typeId="explorercontextmenu.menu.ExplorerContextMenuEntry">
          </commandParameter>
       </command>
       <commandParameterType
             converter="contextquickie2.plugin.ObjectParameterConverter"
-            id="explorercontextmenu.menu.ExplorerContextMenu"
-            type="explorercontextmenu.menu.ExplorerContextMenu">
+            id="explorercontextmenu.menu.ExplorerContextMenuEntry"
+            type="explorercontextmenu.menu.ExplorerContextMenuEntry">
       </commandParameterType>
    </extension>
    <extension
