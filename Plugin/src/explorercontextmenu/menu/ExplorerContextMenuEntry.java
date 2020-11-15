@@ -31,6 +31,8 @@ public class ExplorerContextMenuEntry
   private List<ExplorerContextMenuEntry> entries = new ArrayList<ExplorerContextMenuEntry>();
   
   private String text;
+
+  private String helpText;
   
   private int commandId;
   
@@ -58,6 +60,16 @@ public class ExplorerContextMenuEntry
   public void setText(String value)
   {
     this.text = value;
+  }
+  
+  public String getHelpText()
+  {
+    return helpText;
+  }
+
+  public void setHelpText(String value)
+  {
+    this.helpText = value;
   }
 
   public int getCommandId()
