@@ -4,7 +4,7 @@
       label="ContextQuickie2"
       version="0.1.0.qualifier"
       provider-name="ContextQuickie"
-      plugin="ContextQuickie"
+      plugin="ContextQuickie2"
       os="win32"
       arch="x86,x86_64">
 
