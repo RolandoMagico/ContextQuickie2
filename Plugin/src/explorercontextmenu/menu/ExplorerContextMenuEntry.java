@@ -26,6 +26,12 @@ package explorercontextmenu.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
+
 public class ExplorerContextMenuEntry
 {
   private List<ExplorerContextMenuEntry> entries = new ArrayList<ExplorerContextMenuEntry>();
@@ -38,7 +44,11 @@ public class ExplorerContextMenuEntry
   
   private boolean isSeperator;
   
-  private long imageHandle;
+  private Image nativeImage;
+  
+  private Image eclipseImage;
+  
+  private ImageDescriptor imageDescriptor;
   
   private long nativeHandle;
   
@@ -92,16 +102,32 @@ public class ExplorerContextMenuEntry
     this.isSeperator = value;
   }
 
-  public long getImageHandle()
-  {
-    return this.imageHandle;
-  }
-
   public void setImageHandle(long value)
   {
-    this.imageHandle = value;
+    if (value != 0)
+    {
+      this.nativeImage = Image.win32_new(Display.getCurrent(), SWT.BITMAP, value);
+      ImageData imageData = this.nativeImage.getImageData();
+      imageData.transparentPixel = 0;
+      this.eclipseImage = new Image(Display.getCurrent(), imageData);
+      this.imageDescriptor = ImageDescriptor.createFromImage(this.eclipseImage);
+    }
   }
  
+  @Override
+  protected void finalize() throws Throwable
+  {
+    if (this.nativeImage != null)
+    {
+      this.nativeImage.dispose();
+    }
+
+    if (this.eclipseImage != null)
+    {
+      this.eclipseImage.dispose();
+    }
+  }
+
   public long getNativeHandle()
   {
     return this.nativeHandle;
@@ -112,5 +138,10 @@ public class ExplorerContextMenuEntry
     this.nativeHandle = value;
   }
   
+  public ImageDescriptor getImageDescriptor()
+  {
+    return this.imageDescriptor;
+  }
+
   public native void executeCommand();
 }

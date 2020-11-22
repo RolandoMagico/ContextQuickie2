@@ -23,9 +23,11 @@
 ***********************************************************************************************************************/
 package contextquickie2.plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.core.resources.IResource;
@@ -35,15 +37,11 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -71,7 +69,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
   }
 
   @Override
-  protected IContributionItem[] getContributionItems()
+  protected synchronized IContributionItem[] getContributionItems()
   {
     IContributionItem[] result = null;
     if (this.contextMenu == null)
@@ -102,7 +100,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     
     return result;
   }
-  
+
   private IContributionItem createMenuEntry(ExplorerContextMenuEntry entry)
   {
     IContributionItem result = null;
@@ -115,7 +113,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     {
       final MenuManager subMenu = new MenuManager(entry.getText(), null, null);
       Iterator<ExplorerContextMenuEntry> iterator = entry.getEntries().iterator();
-      subMenu.setImageDescriptor(this.convertImageHandleToImageDescriptor(entry.getImageHandle()));
+      subMenu.setImageDescriptor(entry.getImageDescriptor());
       while (iterator.hasNext())
       {
         subMenu.add(this.createMenuEntry(iterator.next()));
@@ -137,7 +135,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       commandParameter.parameters = parameters;
       commandParameter.label = entry.getText();
       commandParameter.tooltip = entry.getHelpText();
-      commandParameter.icon = this.convertImageHandleToImageDescriptor(entry.getImageHandle());
+      commandParameter.icon = entry.getImageDescriptor();
       result = new CommandContributionItem(commandParameter);
     }
 
@@ -202,20 +200,5 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     }
     
     return path;
-  }
-
-  private ImageDescriptor convertImageHandleToImageDescriptor(long imageHandle)
-  {
-    ImageDescriptor result = null;
-  	if (imageHandle != 0)
-  	{
-  	  Image image = Image.win32_new(Display.getCurrent(), SWT.BITMAP, imageHandle);
-  	  ImageData imageData = image.getImageData();
-  	  imageData.transparentPixel = 0;
-  	  Image transparentImage = new Image(Display.getCurrent(), imageData);
-  	  result = ImageDescriptor.createFromImage(transparentImage);
-  	}
-  	
-  	return result;
   }
 }
