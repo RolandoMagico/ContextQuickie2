@@ -5,6 +5,10 @@ Showing the Windows Explorer Context Menu in Eclipse
 Under development
 
 # Examples
-## Tortoise SVN in the Eclipse Context Menu
+## TortoiseSVN in the Eclipse Context Menu
 
-![Tortoise SVN in the Eclipse Context Menu](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseSVN.png)
+![TortoiseSVN in the Eclipse Context Menu](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseSVN.png)
+
+## TortoiseGit in the Eclipse Context Menu
+
+![TortoiseGit in the Eclipse Context Menu](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseGit.png)
