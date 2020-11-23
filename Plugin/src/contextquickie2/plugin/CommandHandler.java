@@ -27,8 +27,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import explorercontextmenu.menu.ExplorerContextMenuEntry;
-
 public class CommandHandler extends AbstractHandler
 {
   @Override
@@ -37,9 +35,9 @@ public class CommandHandler extends AbstractHandler
     Object contextMenuObject = event.getObjectParameterForExecution(MenuBuilder.ParameterExplorerContextMenu);
     if (contextMenuObject != null)
     {
-      if (ExplorerContextMenuEntry.class.isInstance(contextMenuObject))
+      if (EclipseExplorerContextMenuEntry.class.isInstance(contextMenuObject))
       {
-        ExplorerContextMenuEntry entry = ExplorerContextMenuEntry.class.cast(contextMenuObject);
+        EclipseExplorerContextMenuEntry entry = EclipseExplorerContextMenuEntry.class.cast(contextMenuObject);
         entry.executeCommand();
       }
     }

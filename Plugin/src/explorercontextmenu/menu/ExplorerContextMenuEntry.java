@@ -25,14 +25,6 @@ package explorercontextmenu.menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.widgets.Display;
 
 public class ExplorerContextMenuEntry
 {
@@ -44,27 +36,13 @@ public class ExplorerContextMenuEntry
   
   private int commandId;
   
+  private String commandString;
+  
   private boolean isSeperator;
   
-  private Image nativeImage;
-  
-  private Image eclipseImage;
-  
-  private ImageDescriptor imageDescriptor;
-  
-  public Set<IResource> getSelectedResources()
-  {
-    return this.selectedResources;
-  }
-
-  public void setSelectedResources(Set<IResource> value)
-  {
-    this.selectedResources = value;
-  }
+  private long imageHandle;
 
   private long nativeHandle;
-  
-  private Set<IResource> selectedResources;
   
   public Iterable<ExplorerContextMenuEntry> getEntries()
   {
@@ -105,6 +83,16 @@ public class ExplorerContextMenuEntry
   {
     this.commandId = value;
   }
+  
+  public String getCommandString()
+  {
+    return this.commandString;
+  }
+
+  public void setCommandString(String value)
+  {
+    this.commandString = value;
+  }
 
   public boolean isSeperator()
   {
@@ -114,32 +102,6 @@ public class ExplorerContextMenuEntry
   public void setSeperator(boolean value)
   {
     this.isSeperator = value;
-  }
-
-  public void setImageHandle(long value)
-  {
-    if (value != 0)
-    {
-      this.nativeImage = Image.win32_new(Display.getCurrent(), SWT.BITMAP, value);
-      ImageData imageData = this.nativeImage.getImageData();
-      imageData.transparentPixel = 0;
-      this.eclipseImage = new Image(Display.getCurrent(), imageData);
-      this.imageDescriptor = ImageDescriptor.createFromImage(this.eclipseImage);
-    }
-  }
- 
-  @Override
-  protected void finalize() throws Throwable
-  {
-    if (this.nativeImage != null)
-    {
-      this.nativeImage.dispose();
-    }
-
-    if (this.eclipseImage != null)
-    {
-      this.eclipseImage.dispose();
-    }
   }
 
   public long getNativeHandle()
@@ -152,15 +114,15 @@ public class ExplorerContextMenuEntry
     this.nativeHandle = value;
   }
   
-  public ImageDescriptor getImageDescriptor()
+  public void setImageHandle(long value)
   {
-    return this.imageDescriptor;
+    this.imageHandle = value;
   }
   
-  public void executeCommand()
+  public long getImageHandle()
   {
-    this.executeNativeCommand(false);
+    return this.imageHandle;
   }
 
-  private native void executeNativeCommand(boolean executeSynchronous);
+  public native void executeNativeCommand(boolean executeSynchronous);
 }

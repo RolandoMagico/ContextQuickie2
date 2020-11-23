@@ -49,13 +49,12 @@ import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.services.IServiceLocator;
 
 import explorercontextmenu.menu.ExplorerContextMenu;
-import explorercontextmenu.menu.ExplorerContextMenuEntry;
 
 public class MenuBuilder extends CompoundContributionItem implements IWorkbenchContribution
 {
   private IServiceLocator serviceLocator;
   
-  private ExplorerContextMenu contextMenu;
+  private EclipseExplorerContextMenuEntry contextMenu;
   
   public static final String ParameterExplorerContextMenu = "ContextQuickie2.Command.ExplorerContextMenuEntry";
 
@@ -77,14 +76,14 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       if (selectedResources.isEmpty() == false)
       {
         String[] paths = selectedResources.stream().map(resource -> this.convertIResourceToPath(resource)).toArray(String[]::new);
-        this.contextMenu = new ExplorerContextMenu(paths);
-        contextMenu.setText("Explorer");
+        this.contextMenu = new EclipseExplorerContextMenuEntry(new ExplorerContextMenu(paths));
+        contextMenu.getWrappedEntry().setText("Explorer");
       }
     }
 
     if (this.contextMenu != null)
     {
-      IContributionItem menuRoot = this.createMenuEntry(contextMenu, selectedResources);
+      IContributionItem menuRoot = this.createMenuEntry(this.contextMenu, selectedResources);
       if (menuRoot != null)
       {
         result = new IContributionItem[] { menuRoot };
@@ -100,20 +99,20 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     return result;
   }
 
-  private IContributionItem createMenuEntry(ExplorerContextMenuEntry entry, Set<IResource> selectedResources)
+  private IContributionItem createMenuEntry(EclipseExplorerContextMenuEntry entry, Set<IResource> selectedResources)
   {
     IContributionItem result = null;
     
     entry.setSelectedResources(selectedResources);
 
-    if (entry.isSeperator())
+    if (entry.getWrappedEntry().isSeperator())
     {
       result = new Separator();
     }
     else if (entry.getEntries().iterator().hasNext())
     {
-      final MenuManager subMenu = new MenuManager(entry.getText(), null, null);
-      Iterator<ExplorerContextMenuEntry> iterator = entry.getEntries().iterator();
+      final MenuManager subMenu = new MenuManager(entry.getWrappedEntry().getText(), null, null);
+      Iterator<EclipseExplorerContextMenuEntry> iterator = entry.getEntries().iterator();
       subMenu.setImageDescriptor(entry.getImageDescriptor());
       while (iterator.hasNext())
       {
@@ -134,8 +133,8 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       final Map<String, Object> parameters = new HashMap<String, Object>();
       parameters.put(ParameterExplorerContextMenu, entry);
       commandParameter.parameters = parameters;
-      commandParameter.label = entry.getText();
-      commandParameter.tooltip = entry.getHelpText();
+      commandParameter.label = entry.getWrappedEntry().getText();
+      commandParameter.tooltip = entry.getWrappedEntry().getHelpText();
       commandParameter.icon = entry.getImageDescriptor();
       result = new CommandContributionItem(commandParameter);
     }
