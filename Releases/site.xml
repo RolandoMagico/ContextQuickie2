@@ -3,5 +3,8 @@
    <description name="ContextQuickie2" url="http://contextquickie.github.io/ContextQuickie2/Releases">
       ContextQuickie2 Update Site (Releases)
    </description>
+   <feature url="features/ContextQuickie2_0.2.0.202011231059.jar" id="ContextQuickie2" version="0.2.0.202011231059" os="win32" arch="x86,x86_64">
+      <category name="ContextQuickie2"/>
+   </feature>
    <category-def name="ContextQuickie2" label="Context Quickie2"/>
 </site>
