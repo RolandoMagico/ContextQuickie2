@@ -3,7 +3,7 @@
 	<name>ContextQuickie2UpdateSite</name>
 	<comment></comment>
 	<projects>
-		<project>ContextQuickieFeautre</project>
+		<project>ContextQuickie2Feautre</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
