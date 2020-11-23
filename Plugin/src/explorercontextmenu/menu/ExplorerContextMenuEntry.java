@@ -25,7 +25,9 @@ package explorercontextmenu.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -50,7 +52,19 @@ public class ExplorerContextMenuEntry
   
   private ImageDescriptor imageDescriptor;
   
+  public Set<IResource> getSelectedResources()
+  {
+    return this.selectedResources;
+  }
+
+  public void setSelectedResources(Set<IResource> value)
+  {
+    this.selectedResources = value;
+  }
+
   private long nativeHandle;
+  
+  private Set<IResource> selectedResources;
   
   public Iterable<ExplorerContextMenuEntry> getEntries()
   {
@@ -142,6 +156,11 @@ public class ExplorerContextMenuEntry
   {
     return this.imageDescriptor;
   }
+  
+  public void executeCommand()
+  {
+    this.executeNativeCommand(false);
+  }
 
-  public native void executeCommand();
+  private native void executeNativeCommand(boolean executeSynchronous);
 }

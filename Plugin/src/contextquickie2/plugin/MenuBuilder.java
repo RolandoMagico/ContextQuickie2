@@ -23,11 +23,9 @@
 ***********************************************************************************************************************/
 package contextquickie2.plugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.core.resources.IResource;
@@ -41,7 +39,6 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -72,20 +69,22 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
   protected synchronized IContributionItem[] getContributionItems()
   {
     IContributionItem[] result = null;
+    Set<IResource> selectedResources = this.getSelectedResources();
     if (this.contextMenu == null)
     {
       ObjectParameterConverter.clearEntries();
-      Set<String> selectedResources = this.getSelectedResources();
+
       if (selectedResources.isEmpty() == false)
       {
-        this.contextMenu = new ExplorerContextMenu(selectedResources.toArray(new String[selectedResources.size()]));
+        String[] paths = selectedResources.stream().map(resource -> this.convertIResourceToPath(resource)).toArray(String[]::new);
+        this.contextMenu = new ExplorerContextMenu(paths);
         contextMenu.setText("Explorer");
       }
     }
 
     if (this.contextMenu != null)
     {
-      IContributionItem menuRoot = this.createMenuEntry(contextMenu);
+      IContributionItem menuRoot = this.createMenuEntry(contextMenu, selectedResources);
       if (menuRoot != null)
       {
         result = new IContributionItem[] { menuRoot };
@@ -101,10 +100,12 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     return result;
   }
 
-  private IContributionItem createMenuEntry(ExplorerContextMenuEntry entry)
+  private IContributionItem createMenuEntry(ExplorerContextMenuEntry entry, Set<IResource> selectedResources)
   {
     IContributionItem result = null;
     
+    entry.setSelectedResources(selectedResources);
+
     if (entry.isSeperator())
     {
       result = new Separator();
@@ -116,7 +117,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       subMenu.setImageDescriptor(entry.getImageDescriptor());
       while (iterator.hasNext())
       {
-        subMenu.add(this.createMenuEntry(iterator.next()));
+        subMenu.add(this.createMenuEntry(iterator.next(), selectedResources));
       }
       
       result = subMenu;
@@ -142,9 +143,9 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
     return result;
   }
   
-  private Set<String> getSelectedResources()
+  private Set<IResource> getSelectedResources()
   {
-    final Set<String> selectedResources = new HashSet<String>();
+    final Set<IResource> selectedResources = new HashSet<IResource>();
 
     final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
     if (window != null)
@@ -160,10 +161,9 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           for (Object selectedItem : ((IStructuredSelection) selection).toList())
           {
             final IResource resource = adapterManager.getAdapter(selectedItem, IResource.class);
-            String path = this.convertIResourceToPath(resource);
-            if (path != null)
+            if (this.convertIResourceToPath(resource) != null)
             {
-              selectedResources.add(path);
+              selectedResources.add(resource);
             }
           }
         }
@@ -174,10 +174,9 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           if (editor != null)
           {
             final IResource resource = adapterManager.getAdapter(editor.getEditorInput(), IResource.class);
-            String path = this.convertIResourceToPath(resource);
-            if (path != null)
+            if (this.convertIResourceToPath(resource) != null)
             {
-              selectedResources.add(path);
+              selectedResources.add(resource);
             }
           }
         }
