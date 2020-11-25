@@ -6,7 +6,7 @@ Under development, basic context menu handling is working.
 
 # Installation
 Use the following update sites when installing new software in eclipse:
-* Releases (not yet used): http://contextquickie.github.io/ContextQuickie2/Releases
+* Releases: http://contextquickie.github.io/ContextQuickie2/Releases
 * Development: http://contextquickie.github.io/ContextQuickie2/Development
 
 # Examples
