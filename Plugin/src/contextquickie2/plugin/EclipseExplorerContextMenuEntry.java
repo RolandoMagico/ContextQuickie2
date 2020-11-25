@@ -30,17 +30,15 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
 import explorercontextmenu.menu.ExplorerContextMenuEntry;
 
 public class EclipseExplorerContextMenuEntry
 {
-  private Image nativeImage;
-  
   private Image eclipseImage;
   
   private ImageDescriptor imageDescriptor;
@@ -87,18 +85,28 @@ public class EclipseExplorerContextMenuEntry
       this.entry.executeNativeCommand(false);
     }
   }
-  
+
   public ImageDescriptor getImageDescriptor()
   {
-    if ((this.imageDescriptor == null) && (this.entry.getImageHandle() != 0))
+    if (this.imageDescriptor == null)
     {
-      // The native image must be stored as class member and disposed during finalize
-      // Disposing it already here will result in a crash during menu building
-      this.nativeImage = Image.win32_new(Display.getCurrent(), SWT.BITMAP, this.entry.getImageHandle());
-      ImageData imageData = this.nativeImage.getImageData();
-      imageData.transparentPixel = 0;
-      this.eclipseImage = new Image(Display.getCurrent(), imageData);
-      this.imageDescriptor = ImageDescriptor.createFromImage(this.eclipseImage);
+      int depth = this.entry.getImageDepth();
+      int height = this.entry.getImageHeigth();
+      int width = this.entry.getImageWidth();
+      byte[] data = this.entry.getImageData();
+      if ((depth != 0) && (height != 0) &&( width != 0) && (data != null))
+      {
+        ImageData imageData = new ImageData(width, height, 32, new PaletteData(0xFF00,0xFF0000,0xFF000000), 4, data);
+        imageData.data = data;
+        imageData.alphaData = new byte[width*height];
+        for (int i = 0; i < imageData.alphaData.length; i++)
+        {
+          imageData.alphaData[i] = data[i * 4 + 3];
+        }
+
+        this.eclipseImage = new Image(Display.getCurrent(), imageData);
+        this.imageDescriptor = ImageDescriptor.createFromImage(this.eclipseImage);
+      }
     }
 
     return this.imageDescriptor;
@@ -122,11 +130,6 @@ public class EclipseExplorerContextMenuEntry
   @Override
   protected void finalize() throws Throwable
   {
-    if (this.nativeImage != null)
-    {
-      this.nativeImage.dispose();
-    }
-
     if (this.eclipseImage != null)
     {
       this.eclipseImage.dispose();

@@ -40,7 +40,13 @@ public class ExplorerContextMenuEntry
   
   private boolean isSeperator;
   
-  private long imageHandle;
+  private byte[] imageData;
+  
+  private int imageDepth;
+  
+  private int imageWidth;
+  
+  private int imageHeigth;
 
   private long nativeHandle;
   
@@ -114,14 +120,44 @@ public class ExplorerContextMenuEntry
     this.nativeHandle = value;
   }
   
-  public void setImageHandle(long value)
+  public byte[] getImageData()
   {
-    this.imageHandle = value;
+    return imageData;
   }
-  
-  public long getImageHandle()
+
+  public void setImageData(byte[] value)
   {
-    return this.imageHandle;
+    this.imageData = value;
+  }
+
+  public int getImageDepth()
+  {
+    return imageDepth;
+  }
+
+  public void setImageDepth(int value)
+  {
+    this.imageDepth = value;
+  }
+
+  public int getImageWidth()
+  {
+    return imageWidth;
+  }
+
+  public void setImageWidth(int value)
+  {
+    this.imageWidth = value;
+  }
+
+  public int getImageHeigth()
+  {
+    return imageHeigth;
+  }
+
+  public void setImageHeigth(int value)
+  {
+    this.imageHeigth = value;
   }
 
   public native void executeNativeCommand(boolean executeSynchronous);
