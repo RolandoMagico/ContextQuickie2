@@ -2,6 +2,20 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Context Quickie2"
+            class="contextquickie2.plugin.preferences.PreferencePage"
+            id="contextquickie2.plugin.preferences.PreferencePage">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="contextquickie2.plugin.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="contextquickie2.plugin.CommandHandler"
