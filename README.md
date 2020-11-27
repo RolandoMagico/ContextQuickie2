@@ -18,10 +18,18 @@ Use the following update sites when installing new software in eclipse:
 * Development: http://contextquickie.github.io/ContextQuickie2/Development
 
 # Examples
-## TortoiseSVN in the Eclipse Context Menu
+## TortoiseSVN in the Eclipse Context Menu (Submenu)
 
-![TortoiseSVN in the Eclipse Context Menu](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseSVN.png)
+![TortoiseSVN in the Eclipse Context Menu (Submenu)](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseSVN.png)
 
-## TortoiseGit in the Eclipse Context Menu
+## TortoiseGit in the Eclipse Context Menu (Submenu)
 
-![TortoiseGit in the Eclipse Context Menu](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseGit.png)
+![TortoiseGit in the Eclipse Context Menu (Submenu)](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseGit.png)
+
+## TortoiseSVN in the Eclipse Context Menu (Main Menu)
+
+![TortoiseSVN in the Eclipse Context Menu (Main Menu)](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseSVN_MainMenu.png)
+
+## TortoiseGit in the Eclipse Context Menu (Main Menu)
+
+![TortoiseGit in the Eclipse Context Menu (Main Menu)](https://github.com/ContextQuickie/ContextQuickie2/raw/main/Images/EclipseExample_TortoiseGit_MainMenu.png)
