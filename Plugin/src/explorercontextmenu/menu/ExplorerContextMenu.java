@@ -31,9 +31,9 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
     System.loadLibrary("libraries/ExplorerContextMenu.Java." + archDataModel);
   }
 
-  public ExplorerContextMenu(String[] paths)
+  public ExplorerContextMenu(String[] paths, boolean createDefaultMenu, String[] extendedMenuWhitelist)
   {
-    this.getEntries(paths);
+    this.getEntries(paths, createDefaultMenu, extendedMenuWhitelist);
   }
 
   @Override
@@ -42,7 +42,7 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
     this.deleteUnmanagedInstance();
   }
 
-  private native void getEntries(String[] paths);
+  private native void getEntries(String[] paths, boolean createDefaultMenu, String[] extendedMenuWhitelist);
 
   private native void deleteUnmanagedInstance();
 }

@@ -23,9 +23,11 @@
 ***********************************************************************************************************************/
 package contextquickie2.plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.core.resources.IResource;
@@ -35,6 +37,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -48,6 +51,7 @@ import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.services.IServiceLocator;
 
+import contextquickie2.plugin.preferences.PreferenceInitializer;
 import explorercontextmenu.menu.ExplorerContextMenu;
 
 public class MenuBuilder extends CompoundContributionItem implements IWorkbenchContribution
@@ -69,6 +73,12 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
   {
     IContributionItem[] result = null;
     Set<IResource> selectedResources = this.getSelectedResources();
+
+    // Get current preferences
+    final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String showAllString = store.getString(PreferenceInitializer.PreferenceNameShowWholeMenu);
+    boolean showAll = Boolean.TRUE.toString().equals(showAllString);
+    
     if (this.contextMenu == null)
     {
       ObjectParameterConverter.clearEntries();
@@ -76,17 +86,47 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       if (selectedResources.isEmpty() == false)
       {
         String[] paths = selectedResources.stream().map(resource -> this.convertIResourceToPath(resource)).toArray(String[]::new);
-        this.contextMenu = new EclipseExplorerContextMenuEntry(new ExplorerContextMenu(paths));
+        String[] whitelistArray = null;
+        
+        if (Boolean.FALSE.toString().equals(showAllString))
+        {
+          List<String> whitelist = new ArrayList<String>();
+          showAll = false;
+          for (String key : PreferenceInitializer.SupportedMenuExtensions.keySet())
+          {
+            if (store.getBoolean(PreferenceInitializer.PreferenceNameExtensionPrefix + key) == true)
+            {
+             whitelist.add(PreferenceInitializer.SupportedMenuExtensions.get(key)); 
+            }
+          }
+
+          whitelistArray = whitelist.toArray(String[]::new);
+        }
+
+        this.contextMenu = new EclipseExplorerContextMenuEntry(new ExplorerContextMenu(paths, showAll, whitelistArray));
         contextMenu.getWrappedEntry().setText("Explorer");
       }
     }
 
     if (this.contextMenu != null)
     {
-      IContributionItem menuRoot = this.createMenuEntry(this.contextMenu, selectedResources);
-      if (menuRoot != null)
+      if (showAll == true)
       {
-        result = new IContributionItem[] { menuRoot };
+        IContributionItem menuRoot = this.createMenuEntry(this.contextMenu, selectedResources);
+        if (menuRoot != null)
+        {
+          result = new IContributionItem[] { menuRoot };
+        }
+      }
+      else
+      {
+        List<IContributionItem> contributionItems = new ArrayList<IContributionItem>();
+        for (EclipseExplorerContextMenuEntry entry : this.contextMenu.getEntries())
+        {
+          contributionItems.add(this.createMenuEntry(entry, selectedResources));
+        }
+        
+        result = contributionItems.toArray(IContributionItem[]::new);
       }
       this.setVisible(true);
     }
