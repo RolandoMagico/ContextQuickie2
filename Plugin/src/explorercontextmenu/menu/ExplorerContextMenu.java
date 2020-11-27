@@ -35,6 +35,14 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
   {
     this.getEntries(paths);
   }
-  
+
+  @Override
+  protected void finalize() throws Throwable
+  {
+    this.deleteUnmanagedInstance();
+  }
+
   private native void getEntries(String[] paths);
+
+  private native void deleteUnmanagedInstance();
 }
