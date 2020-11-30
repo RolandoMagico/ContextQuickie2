@@ -1,7 +1,9 @@
 package contextquickie2.plugin.preferences;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -14,20 +16,39 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 
   public static final String PreferenceNameShowWholeMenu = PreferencesPrefix + "ShowWholeMenu";
 
-  public static final String PreferenceNameExtensionPrefix = PreferencesPrefix + "Show.";
+  public static final String PreferenceNameDipslayedMenus = PreferencesPrefix + "DisplayedMenus";
 
-  public static final Map<String, String> SupportedMenuExtensions = createSupportedMenuExtensionsMap();
+  private static final Map<String, String> SupportedMenuExtensions = createSupportedMenuExtensionsMap();
 
   @Override
   public void initializeDefaultPreferences()
   {
     final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     store.setDefault(PreferenceNameShowWholeMenu, Boolean.TRUE.toString());
-
-    for (String key : SupportedMenuExtensions.keySet())
+    store.setDefault(PreferenceNameDipslayedMenus, String.join(";", SupportedMenuExtensions.keySet()));
+  }
+  
+  public static Set<String> getSelectedMenuExtensions()
+  {
+    Set<String> selectedMenuExtensions = new HashSet<String>();
+    final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String selecttedExtensionsString = store.getString(PreferenceNameDipslayedMenus);
+    for (String selectedExtension : selecttedExtensionsString.split(";"))
     {
-      store.setDefault(PreferenceNameExtensionPrefix + key, true);
+      selectedMenuExtensions.add(selectedExtension);
     }
+    
+    return selectedMenuExtensions;
+  }
+
+  public static Set<String> getSupportedMenuExtensions()
+  {
+    return SupportedMenuExtensions.keySet();
+  }
+  
+  public static String getMenuExtensionClassId(String extensionName)
+  {
+    return SupportedMenuExtensions.get(extensionName);
   }
 
   private static Map<String, String> createSupportedMenuExtensionsMap()

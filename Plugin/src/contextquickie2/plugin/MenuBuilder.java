@@ -92,13 +92,18 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
         {
           List<String> whitelist = new ArrayList<String>();
           showAll = false;
-          for (String key : PreferenceInitializer.SupportedMenuExtensions.keySet())
+          Set<String> displayedMenus = PreferenceInitializer.getSelectedMenuExtensions();
+
+          for (String key : PreferenceInitializer.getSupportedMenuExtensions())
           {
-            if (store.getBoolean(PreferenceInitializer.PreferenceNameExtensionPrefix + key) == true)
+            if (displayedMenus.contains(key))
             {
-             whitelist.add(PreferenceInitializer.SupportedMenuExtensions.get(key)); 
+             whitelist.add(PreferenceInitializer.getMenuExtensionClassId(key)); 
             }
           }
+
+          if (whitelist.isEmpty())
+          whitelist.add("DummyString");
 
           whitelistArray = whitelist.toArray(String[]::new);
         }

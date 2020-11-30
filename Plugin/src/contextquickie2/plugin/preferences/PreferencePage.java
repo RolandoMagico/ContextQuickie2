@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -18,7 +17,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 {
   private RadioGroupFieldEditor radioGroupFieldEditor;
 
-  private List<BooleanFieldEditor> booleanFieldEditors = new ArrayList<BooleanFieldEditor>();
+  private CheckedListBoxFieldEditor checkedListBoxFieldEditor;
 
   /**
    * Constructor.
@@ -50,18 +49,14 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
       true);
     this.addField(this.radioGroupFieldEditor);
 
-
-    List<String> extensions = new ArrayList<String>(PreferenceInitializer.SupportedMenuExtensions.keySet());
+    List<String> extensions = new ArrayList<String>(PreferenceInitializer.getSupportedMenuExtensions());
     extensions.sort(Comparator.naturalOrder());
-    for (String key : extensions)
-    {
-      BooleanFieldEditor editor = new BooleanFieldEditor(
-          PreferenceInitializer.PreferenceNameExtensionPrefix + key,
-          "Show " + key,
-          getFieldEditorParent());
-      this.booleanFieldEditors.add(editor);
-      this.addField(editor);
-    }
+    this.checkedListBoxFieldEditor = new CheckedListBoxFieldEditor(
+        PreferenceInitializer.PreferenceNameDipslayedMenus, 
+        "Enabled Context Menus", 
+        extensions.toArray(String[]::new), 
+        this.getFieldEditorParent());
+    this.addField(this.checkedListBoxFieldEditor);
 
     this.updateBooleanEditorsEnabledState(this.getPreferenceStore().getString(PreferenceInitializer.PreferenceNameShowWholeMenu));
   }
@@ -90,9 +85,6 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
       extensionsSelecable = false;
     }
 
-    for (BooleanFieldEditor editor : this.booleanFieldEditors)
-    {
-      editor.setEnabled(extensionsSelecable, getFieldEditorParent());
-    }
+    this.checkedListBoxFieldEditor.setEnabled(extensionsSelecable, getFieldEditorParent());
   }
 }
