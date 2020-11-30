@@ -10,6 +10,7 @@ The explorer context menu items can be added to the Eclipcse context menu in dif
   - Notepad++
   - Open With...
   - TortoiseGit
+  - TortoiseHg
   - TortoiseSVN
 
 # Installation
