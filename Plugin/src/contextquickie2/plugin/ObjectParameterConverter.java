@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 ***********************************************************************************************************************/
+
 package contextquickie2.plugin;
 
 import java.util.HashMap;

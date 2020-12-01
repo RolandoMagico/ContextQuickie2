@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 ***********************************************************************************************************************/
+
 package explorercontextmenu.menu;
 
 public class ExplorerContextMenu extends ExplorerContextMenuEntry

@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 ***********************************************************************************************************************/
+
 package contextquickie2.plugin;
 
 import java.io.IOException;
@@ -49,6 +50,12 @@ public class EclipseExplorerContextMenuEntry
   
   private List<EclipseExplorerContextMenuEntry> entries = new ArrayList<EclipseExplorerContextMenuEntry>();
   
+  /**
+   * Constructor.
+   * 
+   * @param wrappedEntry
+   *      The entry which is wrapped by this instance.
+   */
   public EclipseExplorerContextMenuEntry(ExplorerContextMenuEntry wrappedEntry)
   {
     this.entry = wrappedEntry;
@@ -64,6 +71,9 @@ public class EclipseExplorerContextMenuEntry
     return this.entries;
   }
   
+  /**
+   * Executes the command of this entry.
+   */
   public void executeCommand()
   {
     if ((this.entry.getCommandString() != null) && (this.entry.getCommandString().equals("open")))
@@ -86,6 +96,11 @@ public class EclipseExplorerContextMenuEntry
     }
   }
 
+  
+  /**
+   * Gets the image descriptor of this instance.
+   * @return The image descriptor of this instance or null if no image is available.
+   */
   public ImageDescriptor getImageDescriptor()
   {
     if (this.imageDescriptor == null)
@@ -94,11 +109,11 @@ public class EclipseExplorerContextMenuEntry
       int height = this.entry.getImageHeigth();
       int width = this.entry.getImageWidth();
       byte[] data = this.entry.getImageData();
-      if ((depth != 0) && (height != 0) &&( width != 0) && (data != null))
+      if ((depth != 0) && (height != 0) && (width != 0) && (data != null))
       {
-        ImageData imageData = new ImageData(width, height, 32, new PaletteData(0xFF00,0xFF0000,0xFF000000), 4, data);
+        ImageData imageData = new ImageData(width, height, 32, new PaletteData(0xFF00, 0xFF0000, 0xFF000000), 4, data);
         imageData.data = data;
-        imageData.alphaData = new byte[width*height];
+        imageData.alphaData = new byte[width * height];
         for (int i = 0; i < imageData.alphaData.length; i++)
         {
           imageData.alphaData[i] = data[i * 4 + 3];

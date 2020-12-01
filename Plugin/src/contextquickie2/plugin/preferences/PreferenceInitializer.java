@@ -28,6 +28,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
     store.setDefault(PreferenceNameDipslayedMenus, String.join(";", SupportedMenuExtensions.keySet()));
   }
   
+  /**
+   * Gets a set containing all selected menu extensions.
+   * @return A set containing all elected menu extensions.
+   */
   public static Set<String> getSelectedMenuExtensions()
   {
     Set<String> selectedMenuExtensions = new HashSet<String>();

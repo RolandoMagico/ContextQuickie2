@@ -19,7 +19,19 @@ public class CheckedListBoxFieldEditor extends FieldEditor
   
   private String[] buttonLabels;
 
-  public CheckedListBoxFieldEditor(String name, String labelText, String[] values, Composite parent) {
+  /**
+   * Constructor.
+   * @param name
+   *      The name of the preference.
+   * @param labelText
+   *      The text which is shown as group text.
+   * @param values
+   *      A list of values which can be selected.
+   * @param parent
+   *      The parent element.
+   */
+  public CheckedListBoxFieldEditor(String name, String labelText, String[] values, Composite parent)
+  {
     this.init(name, labelText);
     this.buttons = new ArrayList<Button>();
     this.buttonLabels = values;
@@ -31,9 +43,6 @@ public class CheckedListBoxFieldEditor extends FieldEditor
   {
   }
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   protected void doFillIntoGrid(Composite parent, int numColumns)
   {

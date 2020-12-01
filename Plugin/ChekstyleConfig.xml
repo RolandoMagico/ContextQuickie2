@@ -41,7 +41,8 @@
     </module>
     <module name="RightCurly">
       <property name="id" value="RightCurlySame"/>
-      <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,                     LITERAL_DO"/>
+      <property name="option" value="alone"/>
+      <property name="tokens" value="LITERAL_TRY,LITERAL_CATCH,LITERAL_FINALLY,LITERAL_IF,LITERAL_ELSE,LITERAL_DO"/>
     </module>
     <module name="RightCurly">
       <property name="id" value="RightCurlyAlone"/>
@@ -152,6 +153,8 @@
       <property name="arrayInitIndent" value="2"/>
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
+      <property name="lineWrappingIndentation" value="2"/>
+      <property name="throwsIndent" value="2"/>
     </module>
     <module name="AbbreviationAsWordInName">
       <property name="allowedAbbreviationLength" value="1"/>
@@ -234,6 +237,6 @@
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
     <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-    <property name="max" value="100"/>
+    <property name="max" value="120"/>
   </module>
 </module>

@@ -13,7 +13,9 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import contextquickie2.plugin.Activator;
 
-public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, IPropertyChangeListener
+public class PreferencePage 
+  extends FieldEditorPreferencePage 
+  implements IWorkbenchPreferencePage, IPropertyChangeListener
 {
   private RadioGroupFieldEditor radioGroupFieldEditor;
 
@@ -58,7 +60,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
         this.getFieldEditorParent());
     this.addField(this.checkedListBoxFieldEditor);
 
-    this.updateBooleanEditorsEnabledState(this.getPreferenceStore().getString(PreferenceInitializer.PreferenceNameShowWholeMenu));
+    this.updateBooleanEditorsEnabledState(
+      this.getPreferenceStore().getString(PreferenceInitializer.PreferenceNameShowWholeMenu));
   }
 
   @Override
@@ -74,7 +77,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
   protected void performDefaults()
   {
     super.performDefaults();
-    this.updateBooleanEditorsEnabledState(this.getPreferenceStore().getString(PreferenceInitializer.PreferenceNameShowWholeMenu));
+    this.updateBooleanEditorsEnabledState(
+      this.getPreferenceStore().getString(PreferenceInitializer.PreferenceNameShowWholeMenu));
   }
 
   private void updateBooleanEditorsEnabledState(String value)

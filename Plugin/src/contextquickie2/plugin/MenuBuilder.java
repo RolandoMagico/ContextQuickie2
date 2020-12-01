@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 ***********************************************************************************************************************/
+
 package contextquickie2.plugin;
 
 import java.util.ArrayList;
@@ -85,7 +86,8 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
 
       if (selectedResources.isEmpty() == false)
       {
-        String[] paths = selectedResources.stream().map(resource -> this.convertIResourceToPath(resource)).toArray(String[]::new);
+        String[] paths = selectedResources.stream().map(resource -> this.convertIResourceToPath(resource))
+            .toArray(String[]::new);
         String[] whitelistArray = null;
         
         if (Boolean.FALSE.toString().equals(showAllString))
@@ -98,12 +100,14 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           {
             if (displayedMenus.contains(key))
             {
-             whitelist.add(PreferenceInitializer.getMenuExtensionClassId(key)); 
+              whitelist.add(PreferenceInitializer.getMenuExtensionClassId(key));
             }
           }
 
           if (whitelist.isEmpty())
-          whitelist.add("DummyString");
+          {
+            whitelist.add("DummyString");
+          }
 
           whitelistArray = whitelist.toArray(String[]::new);
         }
