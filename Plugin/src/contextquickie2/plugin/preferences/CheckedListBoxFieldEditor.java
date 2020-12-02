@@ -60,7 +60,6 @@ public class CheckedListBoxFieldEditor extends FieldEditor
     {
       Button button = new Button(mainGroup, SWT.CHECK);
       button.setText(value);
-      button.setData(this.getPreferenceName() + value);
       this.buttons.add(button);
     }
   }
