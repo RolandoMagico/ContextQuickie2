@@ -116,7 +116,7 @@ public class EclipseExplorerContextMenuEntry
         imageData.alphaData = new byte[width * height];
         for (int i = 0; i < imageData.alphaData.length; i++)
         {
-          imageData.alphaData[i] = data[i * 4 + 3];
+          imageData.alphaData[i] = (byte) (data[i * 4] | data[i * 4  + 1] | data[i * 4  + 2] | data[i * 4 + 3]);
         }
 
         this.eclipseImage = new Image(Display.getCurrent(), imageData);
