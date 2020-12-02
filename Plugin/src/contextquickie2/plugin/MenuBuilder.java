@@ -109,7 +109,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
             whitelist.add("DummyString");
           }
 
-          whitelistArray = whitelist.toArray(String[]::new);
+          whitelistArray = whitelist.toArray(new String[whitelist.size()]);
         }
 
         this.contextMenu = new EclipseExplorerContextMenuEntry(new ExplorerContextMenu(paths, showAll, whitelistArray));
@@ -135,7 +135,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           contributionItems.add(this.createMenuEntry(entry, selectedResources));
         }
         
-        result = contributionItems.toArray(IContributionItem[]::new);
+        result = contributionItems.toArray(new IContributionItem[contributionItems.size()]);
       }
       this.setVisible(true);
     }

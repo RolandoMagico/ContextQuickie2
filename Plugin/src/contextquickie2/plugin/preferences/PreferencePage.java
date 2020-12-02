@@ -56,7 +56,7 @@ public class PreferencePage
     this.checkedListBoxFieldEditor = new CheckedListBoxFieldEditor(
         PreferenceInitializer.PreferenceNameDipslayedMenus, 
         "Enabled Context Menus", 
-        extensions.toArray(String[]::new), 
+        extensions.toArray(new String[extensions.size()]), 
         this.getFieldEditorParent());
     this.addField(this.checkedListBoxFieldEditor);
 
