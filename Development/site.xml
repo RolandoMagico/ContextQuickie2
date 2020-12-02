@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="ContextQuickie2" url="http://contextquickie.github.io/ContextQuickie2/Development">
+   <description name="ContextQuickie2" url="http://rolandomagico.github.io/ContextQuickie2/Development">
       ContextQuickie2 Update Site (Development)
    </description>
    <feature url="features/ContextQuickie2_0.1.0.202010162157.jar" id="ContextQuickie2" version="0.1.0.202010162157" os="win32" arch="x86,x86_64">
