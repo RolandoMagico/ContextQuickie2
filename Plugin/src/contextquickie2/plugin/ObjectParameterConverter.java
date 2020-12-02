@@ -26,6 +26,7 @@ package contextquickie2.plugin;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.eclipse.core.commands.AbstractParameterValueConverter;
 import org.eclipse.core.commands.ParameterValueConversionException;
 
