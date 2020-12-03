@@ -64,6 +64,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
     entries.put("TortoiseGit",    "{10A0FDD2-B0C0-4CD4-A7AE-E594CE3B91C8}");
     entries.put("TortoiseHg",     "{46605027-5B8C-4DCE-BFE0-051B7972D64C}");
     entries.put("TortoiseSVN",    "{30351349-7B7D-4FCC-81B4-1E394CA267EB}");
+    entries.put("7-Zip",          "{23170F69-40C1-278A-1000-000100020000}");
     return entries;
   }
 }
