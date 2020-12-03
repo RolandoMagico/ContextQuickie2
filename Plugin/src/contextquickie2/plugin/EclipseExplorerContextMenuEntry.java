@@ -26,6 +26,7 @@ package contextquickie2.plugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +48,16 @@ import explorercontextmenu.menu.ProcessMonitor;
 
 public class EclipseExplorerContextMenuEntry
 {
+  /**
+   * A list with process names for which updating the selected resources after command execution is supported. 
+   */
+  private static List<String> supportedProcesses = Arrays.asList(
+      "BCompare.exe",         // Beyond Compare
+      "TortoiseGitProc.exe",  // TortoiseGit
+      "thgw.exe",             // TortoiseHg
+      "TortoiseProc.exe"      // TortoiseSVN
+      );
+
   private Image eclipseImage;
   
   private ImageDescriptor imageDescriptor;
@@ -105,7 +116,7 @@ public class EclipseExplorerContextMenuEntry
       processMonitor.createSecondSnapshot();
 
       ProcessInfo createdProcess = processMonitor.getCreatedProcess();
-      if (createdProcess != null)
+      if ((createdProcess != null) && (supportedProcesses.contains(createdProcess.name)))
       {
         new Thread(() -> this.runMonitorJobs(createdProcess)).start();
       }
