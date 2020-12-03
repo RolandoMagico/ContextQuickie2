@@ -26,7 +26,6 @@ package contextquickie2.plugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -100,16 +99,15 @@ public class EclipseExplorerContextMenuEntry
     }
     else
     {
-      ProcessMonitor monitor = new ProcessMonitor();
-      List<ProcessInfo> childsBeforeStart = Arrays.asList(monitor.getCurrentChildProcesses());
+      ProcessMonitor processMonitor = new ProcessMonitor();
+      processMonitor.createFirstSnapshot();
       this.entry.executeNativeCommand(false);
-      List<ProcessInfo> childsAfterStart = Arrays.asList(monitor.getCurrentChildProcesses());
+      processMonitor.createSecondSnapshot();
 
-      childsAfterStart.removeAll(childsBeforeStart);
-
-      if (childsAfterStart.size() == 1)
+      ProcessInfo createdProcess = processMonitor.getCreatedProcess();
+      if (createdProcess != null)
       {
-        new Thread(() -> this.runMonitorJobs(childsAfterStart.get(0))).start();
+        new Thread(() -> this.runMonitorJobs(createdProcess)).start();
       }
     }
   }
@@ -171,9 +169,7 @@ public class EclipseExplorerContextMenuEntry
 
   private void runMonitorJobs(ProcessInfo processInfo)
   {
-    // final boolean showProgressForExternalTools = Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.SHOW_PROGRESS_FOR_EXTERNAL_TOOLS);
-    // final boolean refreshWorkspaceAfterExecution = Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.REFRESH_WORKSPACE_AFTER_EXECUTION);
-    final String progresstitle = "ContextQuickie2 progress";
+    final String progresstitle = Activator.PLUGIN_ID;
     Job job = null;
 
     {
@@ -208,7 +204,7 @@ public class EclipseExplorerContextMenuEntry
         monitor.setTaskName("Running external application");
       }
       ProcessMonitor processMonitor = new ProcessMonitor();
-      while (Arrays.asList(processMonitor.getCurrentChildProcesses()).contains(processInfo))
+      while (processMonitor.isProcessRunning(processInfo))
       {
         if ((monitor != null) && (monitor.isCanceled()))
         {

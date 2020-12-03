@@ -24,7 +24,53 @@
 
 package explorercontextmenu.menu;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ProcessMonitor
 {
-  public native ProcessInfo[] getCurrentChildProcesses();
+  private List<ProcessInfo> firstSnapshot;
+  
+  private List<ProcessInfo> secondSnapshot;
+  
+  public void createFirstSnapshot()
+  {
+    this.firstSnapshot = Arrays.asList(this.getCurrentChildProcesses());
+  }
+  
+  public void createSecondSnapshot()
+  {
+    this.secondSnapshot = Arrays.asList(this.getCurrentChildProcesses());
+  }
+  
+  public boolean isProcessRunning(ProcessInfo processInfo)
+  {
+    return Arrays.asList(this.getCurrentChildProcesses()).contains(processInfo);
+  }
+  
+  /**
+   * Checks if there is exactly one child process created between the first and the second snapshot.
+   * If there is one process and the process is a known process, the corresponding ProcessInfo is returned.
+   * @return The ProcessInfo for the created process or null if there is no new process or the created process
+   *     is unknown.
+   */
+  public ProcessInfo getCreatedProcess()
+  {
+    ProcessInfo result = null;
+    if ((this.firstSnapshot != null) && (this.secondSnapshot != null))
+    {
+      List<ProcessInfo> secondSnapShotCopy = new ArrayList<ProcessInfo>(this.secondSnapshot);
+      secondSnapShotCopy.removeAll(this.firstSnapshot);
+
+      if (secondSnapShotCopy.size() == 1)
+      {
+        result = secondSnapShotCopy.get(0);
+      }
+    }
+    
+    return result;
+  }
+
+  private native ProcessInfo[] getCurrentChildProcesses();
 }
