@@ -14,9 +14,14 @@ The explorer context menu items can be added to the Eclipcse context menu in dif
   - TortoiseSVN
 
 # Installation
-Use the following update sites when installing new software in eclipse:
+The release versions are available at the [Eclipse Marketplace](https://marketplace.eclipse.org/content/contextquickie2)
+
+[![Drag to your running Eclipse* workspace. *Requires Eclipse Marketplace Client](https://marketplace.eclipse.org/sites/all/themes/solstice/public/images/marketplace/btn-install.svg)](http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=5305264 "Drag to your running Eclipse* workspace. *Requires Eclipse Marketplace Client")
+
+Alternatively, you can use the following update sites when installing new software in eclipse:
 * Releases: http://rolandomagico.github.io/ContextQuickie2/Releases
 * Development: http://rolandomagico.github.io/ContextQuickie2/Development
+
 
 # Examples
 
