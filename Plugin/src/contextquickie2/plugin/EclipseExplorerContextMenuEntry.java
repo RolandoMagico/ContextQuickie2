@@ -26,10 +26,16 @@ package contextquickie2.plugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -37,6 +43,8 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
 import explorercontextmenu.menu.ExplorerContextMenuEntry;
+import explorercontextmenu.menu.ProcessInfo;
+import explorercontextmenu.menu.ProcessMonitor;
 
 public class EclipseExplorerContextMenuEntry
 {
@@ -92,7 +100,17 @@ public class EclipseExplorerContextMenuEntry
     }
     else
     {
+      ProcessMonitor monitor = new ProcessMonitor();
+      List<ProcessInfo> childsBeforeStart = Arrays.asList(monitor.getCurrentChildProcesses());
       this.entry.executeNativeCommand(false);
+      List<ProcessInfo> childsAfterStart = Arrays.asList(monitor.getCurrentChildProcesses());
+
+      childsAfterStart.removeAll(childsBeforeStart);
+
+      if (childsAfterStart.size() == 1)
+      {
+        new Thread(() -> this.runMonitorJobs(childsAfterStart.get(0))).start();
+      }
     }
   }
 
@@ -149,5 +167,94 @@ public class EclipseExplorerContextMenuEntry
     {
       this.eclipseImage.dispose();
     }
+  }
+
+  private void runMonitorJobs(ProcessInfo processInfo)
+  {
+    // final boolean showProgressForExternalTools = Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.SHOW_PROGRESS_FOR_EXTERNAL_TOOLS);
+    // final boolean refreshWorkspaceAfterExecution = Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.REFRESH_WORKSPACE_AFTER_EXECUTION);
+    final String progresstitle = "ContextQuickie2 progress";
+    Job job = null;
+
+    {
+      job = new Job(progresstitle) 
+      {
+        protected IStatus run(IProgressMonitor monitor)
+        {
+          IStatus status = EclipseExplorerContextMenuEntry.this.waitForProcessToFinish(processInfo, monitor);
+          
+          if (status == Status.OK_STATUS)
+          {
+            status = EclipseExplorerContextMenuEntry.this.refreshResourcesAfterProcessEnd(monitor);
+          }
+          
+          return status;
+        }
+      };
+    }
+    
+    if (job != null)
+    {
+      job.schedule();
+    }
+  }
+  
+  private IStatus waitForProcessToFinish(ProcessInfo processInfo, IProgressMonitor monitor)
+  {
+    if (processInfo != null)
+    {
+      if (monitor != null)
+      {
+        monitor.setTaskName("Running external application");
+      }
+      ProcessMonitor processMonitor = new ProcessMonitor();
+      while (Arrays.asList(processMonitor.getCurrentChildProcesses()).contains(processInfo))
+      {
+        if ((monitor != null) && (monitor.isCanceled()))
+        {
+          return Status.CANCEL_STATUS;
+        }
+        try
+        {
+          Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {
+          e.printStackTrace();
+          return Status.CANCEL_STATUS;
+        }
+      }
+    }
+    
+    return Status.OK_STATUS;
+  }
+
+  private IStatus refreshResourcesAfterProcessEnd(IProgressMonitor monitor)
+  {
+    {
+      monitor.setTaskName("Refreshing workspace");
+      for (IResource resource : this.getSelectedResources())
+      {
+        if (monitor.isCanceled())
+        {
+          return Status.CANCEL_STATUS;
+        }
+        if ((resource.getParent() != null) && (resource.getType() != IResource.PROJECT))
+        {
+          resource = resource.getParent();
+        }
+        try
+        {
+          resource.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+        }
+        catch (CoreException e)
+        {
+          e.printStackTrace();
+          return Status.CANCEL_STATUS;
+        }
+      }
+    }
+    
+    return Status.OK_STATUS;
   }
 }
