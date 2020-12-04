@@ -22,55 +22,32 @@
  SOFTWARE.
 ***********************************************************************************************************************/
 
-package explorercontextmenu.menu;
+package rolandomagico.processinformation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class ProcessMonitor
+public class ProcessInformation
 {
-  private List<ProcessInfo> firstSnapshot;
-  
-  private List<ProcessInfo> secondSnapshot;
-  
-  public void createFirstSnapshot()
+  static
   {
-    this.firstSnapshot = Arrays.asList(this.getCurrentChildProcesses());
+    final String archDataModel = System.getProperty("sun.arch.data.model");
+    System.loadLibrary("libraries/ProcessInformation.Java." + archDataModel);
   }
   
-  public void createSecondSnapshot()
-  {
-    this.secondSnapshot = Arrays.asList(this.getCurrentChildProcesses());
-  }
-  
-  public boolean isProcessRunning(ProcessInfo processInfo)
-  {
-    return Arrays.asList(this.getCurrentChildProcesses()).contains(processInfo);
-  }
+  public static native long getCurrentProcessId();
   
   /**
-   * Checks if there is exactly one child process created between the first and the second snapshot.
-   * If there is one process and the process is a known process, the corresponding ProcessInfo is returned.
-   * @return The ProcessInfo for the created process or null if there is no new process or the created process
-   *     is unknown.
+   * Gets all processes of the system.
+   * @return
+   *     All processes of the system.
    */
-  public ProcessInfo getCreatedProcess()
+  public static List<ProcessData> getAllProcesses()
   {
-    ProcessInfo result = null;
-    if ((this.firstSnapshot != null) && (this.secondSnapshot != null))
-    {
-      List<ProcessInfo> secondSnapShotCopy = new ArrayList<ProcessInfo>(this.secondSnapshot);
-      secondSnapShotCopy.removeAll(this.firstSnapshot);
-
-      if (secondSnapShotCopy.size() == 1)
-      {
-        result = secondSnapShotCopy.get(0);
-      }
-    }
-    
-    return result;
+    List<ProcessData> processes = new ArrayList<ProcessData>();
+    getAllProcesses(processes);
+    return processes;
   }
-
-  private native ProcessInfo[] getCurrentChildProcesses();
+  
+  private static native void getAllProcesses(List<ProcessData> processes);
 }

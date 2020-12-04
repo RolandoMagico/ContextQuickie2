@@ -22,13 +22,15 @@
  SOFTWARE.
 ***********************************************************************************************************************/
 
-package explorercontextmenu.menu;
+package rolandomagico.processinformation;
 
-public class ProcessInfo
+public class ProcessData
 {
+  public String name;
+
   public long processId;
   
-  public String name;
+  public long parantProcessId;
 
   @Override
   public boolean equals(Object obj)
@@ -37,9 +39,9 @@ public class ProcessInfo
     
     if (obj != null)
     {
-      if (ProcessInfo.class.isInstance(obj))
+      if (ProcessData.class.isInstance(obj))
       {
-        ProcessInfo other = ProcessInfo.class.cast(obj);
+        ProcessData other = ProcessData.class.cast(obj);
         result = (other.name.equals(this.name)) && (other.processId == this.processId);
       }
     }

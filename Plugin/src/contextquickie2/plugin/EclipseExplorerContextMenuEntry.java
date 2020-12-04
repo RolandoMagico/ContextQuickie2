@@ -43,8 +43,7 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
 import explorercontextmenu.menu.ExplorerContextMenuEntry;
-import explorercontextmenu.menu.ProcessInfo;
-import explorercontextmenu.menu.ProcessMonitor;
+import rolandomagico.processinformation.ProcessData;
 
 public class EclipseExplorerContextMenuEntry
 {
@@ -110,12 +109,12 @@ public class EclipseExplorerContextMenuEntry
     }
     else
     {
-      ProcessMonitor processMonitor = new ProcessMonitor();
+      ProcessInformationWrapper processMonitor = new ProcessInformationWrapper();
       processMonitor.createFirstSnapshot();
       this.entry.executeNativeCommand(false);
       processMonitor.createSecondSnapshot();
 
-      ProcessInfo createdProcess = processMonitor.getCreatedProcess();
+      ProcessData createdProcess = processMonitor.getCreatedProcess();
       if ((createdProcess != null) && (supportedProcesses.contains(createdProcess.name)))
       {
         new Thread(() -> this.runMonitorJobs(createdProcess)).start();
@@ -178,7 +177,7 @@ public class EclipseExplorerContextMenuEntry
     }
   }
 
-  private void runMonitorJobs(ProcessInfo processInfo)
+  private void runMonitorJobs(ProcessData processInfo)
   {
     final String progresstitle = Activator.PLUGIN_ID;
     Job job = null;
@@ -206,7 +205,7 @@ public class EclipseExplorerContextMenuEntry
     }
   }
   
-  private IStatus waitForProcessToFinish(ProcessInfo processInfo, IProgressMonitor monitor)
+  private IStatus waitForProcessToFinish(ProcessData processInfo, IProgressMonitor monitor)
   {
     if (processInfo != null)
     {
@@ -214,8 +213,8 @@ public class EclipseExplorerContextMenuEntry
       {
         monitor.setTaskName("Running external application");
       }
-      ProcessMonitor processMonitor = new ProcessMonitor();
-      while (processMonitor.isProcessRunning(processInfo))
+
+      while (ProcessInformationWrapper.isProcessRunning(processInfo))
       {
         if ((monitor != null) && (monitor.isCanceled()))
         {
