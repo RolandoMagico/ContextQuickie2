@@ -13,6 +13,8 @@ The explorer context menu items can be added to the Eclipcse context menu in dif
   - TortoiseHg
   - TortoiseSVN
 
+The screenshots below show example context menus based on the described configuration.
+
 # Installation
 The release versions are available at the [Eclipse Marketplace](https://marketplace.eclipse.org/content/contextquickie2)
 
@@ -22,6 +24,28 @@ Alternatively, you can use the following update sites when installing new softwa
 * Releases: http://rolandomagico.github.io/ContextQuickie2/Releases
 * Development: http://rolandomagico.github.io/ContextQuickie2/Development
 
+# Configuration
+
+The behavior can be configured in the workspaces preferences:
+
+![ContextQuickie2 Preferences Page](https://github.com/RolandoMagico/ContextQuickie2/raw/main/Images/EclipseExample_Preferences.png)
+
+# Remarks
+## Menu Entry "Open"
+The menu entry "Open" is implemented to open the selected files/folders with the Windows Explorer.
+
+## Progress Monitoring
+Because there are context menu extensions which don't support synchronous invocation, the progress reporting to Eclipse is done by monitoring the child processes of Eclipse during invocation.
+If there is a new child process which is known to ContextQuickie2 after invoking a context menu command, the progress of the command execution can be monitored in Eclipse.
+If there isn't a new child process after invoking or a command or the process is unknown to ContextQuickie2, progress monitoring cannot be done.
+
+Currently, the following processes are known to ContextQuickie2:
+- Bcompare.exe for Beyond Compare
+- TortoiseGitProc.exe for TortoiseGit
+- TortoiseProc.exe for TortoiseSVN
+- thgw.exe for TortoiseHg
+
+The described behavior also affects refreshing the workspace after a command was executed. As an alternative, you can enable "Refresh using native hooks or polling" in the workspace preferendes to let Eclipse update your workspace independent of ContextQuickie2.
 
 # Examples
 
