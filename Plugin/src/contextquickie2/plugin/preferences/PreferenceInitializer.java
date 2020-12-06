@@ -18,6 +18,18 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 
   public static final String PreferenceNameDipslayedMenus = PreferencesPrefix + "DisplayedMenus";
 
+  /**
+   * Configuration item for enabling/disabling showing the progress for external tools.
+   */
+  public static final String PreferenceNameShowProgressForExernalTools = 
+      PreferencesPrefix + "ShowProgressForExternalTools";
+
+  /**
+   * Configuration item for enabling/disabling refresh of the workspace after execution of external applications.
+   */
+  public static final String PreferenceNameRefreshWorkspaceAfterExecution = 
+      PreferencesPrefix + "RefreshWorkspaceAfterExecution";
+
   private static final Map<String, String> SupportedMenuExtensions = createSupportedMenuExtensionsMap();
 
   @Override
@@ -26,6 +38,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
     final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     store.setDefault(PreferenceNameShowWholeMenu, Boolean.TRUE.toString());
     store.setDefault(PreferenceNameDipslayedMenus, String.join(";", SupportedMenuExtensions.keySet()));
+    store.setDefault(PreferenceNameShowProgressForExernalTools, true);
+    store.setDefault(PreferenceNameRefreshWorkspaceAfterExecution, true);
   }
   
   /**
