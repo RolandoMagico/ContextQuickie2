@@ -36,12 +36,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
+import contextquickie2.plugin.preferences.PreferenceInitializer;
 import explorercontextmenu.menu.ExplorerContextMenuEntry;
 import rolandomagico.processinformation.ProcessData;
 
@@ -57,7 +59,7 @@ public class EclipseExplorerContextMenuEntry
       "TortoiseProc.exe"      // TortoiseSVN
       );
 
-  private Image eclipseImage;
+  private Image image;
   
   private ImageDescriptor imageDescriptor;
   
@@ -145,8 +147,8 @@ public class EclipseExplorerContextMenuEntry
           imageData.alphaData[i] = (byte) (data[i * 4] | data[i * 4  + 1] | data[i * 4  + 2] | data[i * 4 + 3]);
         }
 
-        this.eclipseImage = new Image(Display.getCurrent(), imageData);
-        this.imageDescriptor = ImageDescriptor.createFromImage(this.eclipseImage);
+        this.image = new Image(Display.getCurrent(), imageData);
+        this.imageDescriptor = ImageDescriptor.createFromImage(this.image);
       }
     }
 
@@ -171,25 +173,42 @@ public class EclipseExplorerContextMenuEntry
   @Override
   protected void finalize() throws Throwable
   {
-    if (this.eclipseImage != null)
+    if (this.image != null)
     {
-      this.eclipseImage.dispose();
+      this.image.dispose();
     }
   }
 
   private void runMonitorJobs(ProcessData processInfo)
   {
     final String progresstitle = Activator.PLUGIN_ID;
-    Job job = null;
+    final IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+    final boolean showProgressForExternalTools = preferenceStore.getBoolean(
+        PreferenceInitializer.PreferenceNameShowProgressForExernalTools);
+    final boolean refreshWorkspaceAfterExecution = preferenceStore.getBoolean(
+        PreferenceInitializer.PreferenceNameRefreshWorkspaceAfterExecution);
 
+    if ((showProgressForExternalTools == true) || (refreshWorkspaceAfterExecution == true))
     {
-      job = new Job(progresstitle) 
+      Job job = new Job(progresstitle) 
       {
         protected IStatus run(IProgressMonitor monitor)
         {
-          IStatus status = EclipseExplorerContextMenuEntry.this.waitForProcessToFinish(processInfo, monitor);
+          IStatus status = Status.OK_STATUS;
+
+          if (showProgressForExternalTools == true)
+          {
+            status = EclipseExplorerContextMenuEntry.this.waitForProcessToFinish(processInfo, monitor);
+          }
+          else if (refreshWorkspaceAfterExecution == true)
+          {
+            // showProgressForExternalTools is set to false, otherwise the previous if condition would have been met
+            // refreshWorkspaceAfterExecution is set to true, so wait for the process to finish without monitoring.
+            // Without monitoring, no progress is reported in Eclipse. But it is needed anyway to refresh the workspace.
+            EclipseExplorerContextMenuEntry.this.waitForProcessToFinish(processInfo, null);
+          }
           
-          if (status == Status.OK_STATUS)
+          if ((status == Status.OK_STATUS) && (refreshWorkspaceAfterExecution == true))
           {
             status = EclipseExplorerContextMenuEntry.this.refreshResourcesAfterProcessEnd(monitor);
           }
@@ -197,10 +216,7 @@ public class EclipseExplorerContextMenuEntry
           return status;
         }
       };
-    }
-    
-    if (job != null)
-    {
+
       job.schedule();
     }
   }
