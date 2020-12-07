@@ -12,6 +12,10 @@ The explorer context menu items can be added to the Eclipcse context menu in dif
   - TortoiseGit
   - TortoiseHg
   - TortoiseSVN
+  
+The follwoing context menu entries are currently not supported (not sure why they are not working, looks like the can only be executed directly from the Windows Explorer):
+- Sharing (Entry "Share")
+- Modern Sharing (Entry "Give acces to")
 
 The screenshots below show example context menus based on the described configuration.
 
