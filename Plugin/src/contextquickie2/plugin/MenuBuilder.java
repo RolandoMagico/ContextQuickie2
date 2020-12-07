@@ -63,6 +63,12 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
   private EclipseExplorerContextMenuEntry contextMenu;
   
   public static final String ParameterExplorerContextMenu = "ContextQuickie2.Command.ExplorerContextMenuEntry";
+  
+  private static String[] extensionsBlacklist =
+  {
+    "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}", // Sharing
+    "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}"  // Modern Sharing
+  };
 
   @Override
   public void initialize(IServiceLocator serviceLocator)
@@ -113,7 +119,8 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           whitelistArray = whitelist.toArray(new String[whitelist.size()]);
         }
 
-        this.contextMenu = new EclipseExplorerContextMenuEntry(new ExplorerContextMenu(paths, showAll, whitelistArray));
+        this.contextMenu = new EclipseExplorerContextMenuEntry(
+            new ExplorerContextMenu(paths, showAll, whitelistArray, extensionsBlacklist));
         contextMenu.getWrappedEntry().setText("Explorer");
       }
     }
