@@ -161,5 +161,5 @@ public class ExplorerContextMenuEntry
     this.imageHeigth = value;
   }
 
-  public native void executeNativeCommand(boolean executeSynchronous);
+  public native int executeCommand(long windowHandle, boolean executeSynchronous);
 }

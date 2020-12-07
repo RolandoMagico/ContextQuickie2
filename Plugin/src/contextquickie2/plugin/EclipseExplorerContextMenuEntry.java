@@ -32,8 +32,10 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -42,6 +44,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.FrameworkUtil;
 
 import contextquickie2.plugin.preferences.PreferenceInitializer;
 import explorercontextmenu.menu.ExplorerContextMenuEntry;
@@ -113,13 +117,28 @@ public class EclipseExplorerContextMenuEntry
     {
       ProcessInformationWrapper processMonitor = new ProcessInformationWrapper();
       processMonitor.createFirstSnapshot();
-      this.entry.executeNativeCommand(false);
-      processMonitor.createSecondSnapshot();
-
-      ProcessData createdProcess = processMonitor.getCreatedProcess();
-      if ((createdProcess != null) && (supportedProcesses.contains(createdProcess.name)))
+      long windowHandle = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().handle;
+      int result = this.entry.executeCommand(windowHandle, false);
+      if (result == 0)
       {
-        new Thread(() -> this.runMonitorJobs(createdProcess)).start();
+        processMonitor.createSecondSnapshot();
+
+        ProcessData createdProcess = processMonitor.getCreatedProcess();
+        if ((createdProcess != null) && (supportedProcesses.contains(createdProcess.name)))
+        {
+          new Thread(() -> this.runMonitorJobs(createdProcess)).start();
+        }
+      }
+      else
+      {
+        final ILog logger = Platform.getLog(FrameworkUtil.getBundle(EclipseExplorerContextMenuEntry.class));
+        String message = String.format(
+            "Unable to execute context menu command. Entry: %s, Command ID: %d, Command String: %s. Error Code: 0x%x",
+            this.entry.getText(),
+            this.entry.getCommandId(),
+            this.entry.getCommandString(),
+            result);
+        logger.error(message);
       }
     }
   }
