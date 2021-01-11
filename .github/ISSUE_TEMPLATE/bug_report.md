@@ -25,10 +25,16 @@ If applicable, add screenshots to help explain your problem.
  - Java runtime (e.g. 32bit, 64bit)
  - ContextQuickie version [e.g. 0.8.4]
 
-**Used ContextQuickie features:**
+**Do you have any specific explorer context menu extensions installed:**
  - Beyond Compare
- - TortoiseSVN
+ - Notepad++
  - TortoiseGit
+ - TortoiseHg
+ - TortoiseSVN
+ - others...
+ 
+ **Plugin configuration**
+Can you provide a screenshot of the ContextQuickie2 preferences in Eclipse?
 
 **Additional context**
 Add any other context about the problem here.
