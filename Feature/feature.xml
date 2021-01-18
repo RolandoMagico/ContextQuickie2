@@ -2,7 +2,7 @@
 <feature
       id="ContextQuickie2"
       label="ContextQuickie2"
-      version="0.6.1.qualifier"
+      version="0.6.2.qualifier"
       provider-name="ContextQuickie"
       plugin="ContextQuickie2"
       os="win32"
@@ -58,7 +58,7 @@ SOFTWARE.
          arch="x86,x86_64"
          download-size="0"
          install-size="0"
-         version="0.6.1.qualifier"
+         version="0.6.2.qualifier"
          unpack="false"/>
 
 </feature>
