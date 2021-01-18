@@ -34,6 +34,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IContributionItem;
@@ -52,6 +53,7 @@ import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.services.IServiceLocator;
+import org.osgi.framework.FrameworkUtil;
 
 import contextquickie2.plugin.preferences.PreferenceInitializer;
 import explorercontextmenu.menu.ExplorerContextMenu;
@@ -119,9 +121,17 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           whitelistArray = whitelist.toArray(new String[whitelist.size()]);
         }
 
-        this.contextMenu = new EclipseExplorerContextMenuEntry(
-            new ExplorerContextMenu(paths, showAll, whitelistArray, extensionsBlacklist));
-        contextMenu.getWrappedEntry().setText("Explorer");
+        try
+        {
+          this.contextMenu = new EclipseExplorerContextMenuEntry(
+              new ExplorerContextMenu(paths, showAll, whitelistArray, extensionsBlacklist));
+          contextMenu.getWrappedEntry().setText("Explorer");
+        }
+        catch (Throwable e)
+        {
+          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(MenuBuilder.class));
+          logger.error(e.getMessage(), e);
+        }
       }
     }
 
