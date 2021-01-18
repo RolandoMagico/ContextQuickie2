@@ -32,6 +32,18 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
     System.loadLibrary("libraries/ExplorerContextMenu.Java." + archDataModel);
   }
 
+  /**
+   * Constructor.
+   * 
+   * @param paths
+   *      The paths for which the context menu is created.
+   * @param createDefaultMenu
+   *      A value indicating whether the default menu is created or not.
+   * @param whitelist
+   *      A list containing all UUIDs for extended context menu entries which are loaded.
+   * @param blacklist
+   *      A list containing all UUIDs for extended context menu entries which are not loaded.
+   */
   public ExplorerContextMenu(String[] paths, boolean createDefaultMenu, String[] whitelist, String[] blacklist)
   {
     this.getEntries(paths, createDefaultMenu, whitelist, blacklist);
