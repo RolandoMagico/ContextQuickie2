@@ -109,7 +109,8 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (IOException e)
         {
-          e.printStackTrace();
+          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
+          logger.error(e.getMessage(), e);
         }
       }
     }
@@ -261,7 +262,8 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (InterruptedException e)
         {
-          e.printStackTrace();
+          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
+          logger.error(e.getMessage(), e);
           return Status.CANCEL_STATUS;
         }
       }
