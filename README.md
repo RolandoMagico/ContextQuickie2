@@ -21,6 +21,11 @@ The follwoing context menu entries are currently not supported (not sure why the
 The screenshots below show example context menus based on the described configuration.
 
 # Installation
+
+## Prerequisites
+
+ContextQuickie2 requires an installed Microsoft Visual C++ Redistributeable package which can be downloaded [here](https://support.microsoft.com/en-in/help/2977003/the-latest-supported-visual-c-downloads).
+
 The release versions are available at the [Eclipse Marketplace](https://marketplace.eclipse.org/content/contextquickie2)
 
 [![Drag to your running Eclipse* workspace. *Requires Eclipse Marketplace Client](https://marketplace.eclipse.org/sites/all/themes/solstice/public/images/marketplace/btn-install.svg)](http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=5305264 "Drag to your running Eclipse* workspace. *Requires Eclipse Marketplace Client")
