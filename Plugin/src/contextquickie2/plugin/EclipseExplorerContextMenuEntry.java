@@ -73,6 +73,8 @@ public class EclipseExplorerContextMenuEntry
   
   private List<EclipseExplorerContextMenuEntry> entries = new ArrayList<EclipseExplorerContextMenuEntry>();
   
+  private final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
+
   /**
    * Constructor.
    * 
@@ -109,7 +111,7 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (IOException e)
         {
-          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
+          
           logger.error(e.getMessage(), e);
         }
       }
@@ -262,7 +264,6 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (InterruptedException e)
         {
-          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
           logger.error(e.getMessage(), e);
           return Status.CANCEL_STATUS;
         }

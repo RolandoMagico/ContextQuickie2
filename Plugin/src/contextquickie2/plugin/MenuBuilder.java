@@ -129,7 +129,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
         }
         catch (Throwable e)
         {
-          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(MenuBuilder.class));
+          final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
           logger.error(e.getMessage(), e);
         }
       }
