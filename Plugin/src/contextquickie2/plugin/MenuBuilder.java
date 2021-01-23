@@ -36,7 +36,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -123,6 +125,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
 
         try
         {
+          ExplorerContextMenu.loadNativeLibrary("libraries");
           this.contextMenu = new EclipseExplorerContextMenuEntry(
               new ExplorerContextMenu(paths, showAll, whitelistArray, extensionsBlacklist));
           contextMenu.getWrappedEntry().setText("Explorer");
@@ -130,7 +133,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
         catch (Throwable e)
         {
           final ILog logger = Platform.getLog(FrameworkUtil.getBundle(this.getClass()));
-          logger.error(e.getMessage(), e);
+          logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
         }
       }
     }

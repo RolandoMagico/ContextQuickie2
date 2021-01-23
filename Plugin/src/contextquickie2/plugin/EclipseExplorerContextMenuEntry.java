@@ -111,8 +111,7 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (IOException e)
         {
-          
-          logger.error(e.getMessage(), e);
+          logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
         }
       }
     }
@@ -141,7 +140,7 @@ public class EclipseExplorerContextMenuEntry
             this.entry.getCommandId(),
             this.entry.getCommandString(),
             result);
-        logger.error(message);
+        logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, message));
       }
     }
   }
@@ -264,6 +263,7 @@ public class EclipseExplorerContextMenuEntry
         }
         catch (InterruptedException e)
         {
+          logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
           logger.error(e.getMessage(), e);
           return Status.CANCEL_STATUS;
         }
