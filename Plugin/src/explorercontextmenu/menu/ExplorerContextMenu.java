@@ -26,12 +26,6 @@ package explorercontextmenu.menu;
 
 public class ExplorerContextMenu extends ExplorerContextMenuEntry
 {
-  static
-  {
-    final String archDataModel = System.getProperty("sun.arch.data.model");
-    System.loadLibrary("libraries/ExplorerContextMenu.Java." + archDataModel);
-  }
-
   /**
    * Constructor.
    * 
@@ -47,6 +41,18 @@ public class ExplorerContextMenu extends ExplorerContextMenuEntry
   public ExplorerContextMenu(String[] paths, boolean createDefaultMenu, String[] whitelist, String[] blacklist)
   {
     this.getEntries(paths, createDefaultMenu, whitelist, blacklist);
+  }
+
+  /**
+   * Loads the required native library.
+   * 
+   * @param libraryDirectory
+   *      The directory which contains the native library.
+   */
+  public static void loadNativeLibrary(String libraryDirectory)
+  {
+    final String archDataModel = System.getProperty("sun.arch.data.model");
+    System.loadLibrary(libraryDirectory + "/ExplorerContextMenu.Java." + archDataModel);
   }
 
   @Override
