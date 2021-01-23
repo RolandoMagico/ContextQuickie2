@@ -25,7 +25,6 @@
 package contextquickie2.plugin;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -78,6 +77,6 @@ public class Activator extends AbstractUIPlugin
    */
   public static ImageDescriptor getImageDescriptor(final String path)
   {
-    return ResourceLocator.imageDescriptorFromBundle(PLUGIN_ID, path).get();
+    return imageDescriptorFromPlugin(PLUGIN_ID, path);
   }
 }

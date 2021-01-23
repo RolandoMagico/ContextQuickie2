@@ -264,7 +264,6 @@ public class EclipseExplorerContextMenuEntry
         catch (InterruptedException e)
         {
           logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
-          logger.error(e.getMessage(), e);
           return Status.CANCEL_STATUS;
         }
       }
