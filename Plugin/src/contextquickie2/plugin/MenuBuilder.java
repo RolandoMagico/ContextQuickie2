@@ -156,11 +156,17 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
           contributionItems.add(this.createMenuEntry(entry, selectedResources));
         }
         
+        while ((contributionItems.isEmpty() == false) && Separator.class.isInstance(contributionItems.get(0)))
+        {
+          contributionItems.remove(0);
+        }
+
         result = contributionItems.toArray(new IContributionItem[contributionItems.size()]);
       }
       this.setVisible(true);
     }
-    else
+
+    if ((result == null) || (result.length == 0))
     {
       result = new IContributionItem[0];
       this.setVisible(false);
