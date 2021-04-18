@@ -206,7 +206,7 @@ public class MenuBuilder extends CompoundContributionItem implements IWorkbenchC
       commandParameter.label = entry.getWrappedEntry().getText();
       commandParameter.tooltip = entry.getWrappedEntry().getHelpText();
       commandParameter.icon = entry.getImageDescriptor();
-      result = new CommandContributionItem(commandParameter);
+      result = new ExplorerCommandContributionItem(entry, commandParameter);
     }
 
     return result;

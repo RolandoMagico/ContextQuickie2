@@ -194,9 +194,15 @@ public class EclipseExplorerContextMenuEntry
   @Override
   protected void finalize() throws Throwable
   {
-    if (this.image != null)
+    this.dispose();
+  }
+  
+  public void dispose()
+  {
+    if ((this.image != null) && (this.image.isDisposed() == false))
     {
       this.image.dispose();
+      this.imageDescriptor = null;
     }
   }
 
