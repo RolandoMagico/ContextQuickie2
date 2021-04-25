@@ -190,13 +190,10 @@ public class EclipseExplorerContextMenuEntry
   {
     return this.entry;
   }
- 
-  @Override
-  protected void finalize() throws Throwable
-  {
-    this.dispose();
-  }
   
+  /**
+   * Releases all unmanaged resources (images) which are used by this instance. 
+   */
   public void dispose()
   {
     if ((this.image != null) && (this.image.isDisposed() == false))

@@ -1,7 +1,7 @@
 /***********************************************************************************************************************
  MIT License
 
- Copyright(c) 2021 Roland Reinl
+ Copyright(c) 2020 Roland Reinl
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files(the "Software"), to deal
@@ -21,22 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 ***********************************************************************************************************************/
+
 package contextquickie2.plugin;
 
-import org.eclipse.ui.menus.CommandContributionItem;
-import org.eclipse.ui.menus.CommandContributionItemParameter;
+import org.eclipse.jface.action.MenuManager;
 
-public class ExplorerCommandContributionItem extends CommandContributionItem {
-
+public class DisposableMenuManager extends MenuManager
+{
   private EclipseExplorerContextMenuEntry currentEntry;
 
-  public ExplorerCommandContributionItem(EclipseExplorerContextMenuEntry entry, CommandContributionItemParameter contributionParameters) {
-    super(contributionParameters);
+  public DisposableMenuManager(EclipseExplorerContextMenuEntry entry)
+  {
+    super(entry.getWrappedEntry().getText(), entry.getImageDescriptor(), null);
     this.currentEntry = entry;
   }
 
   @Override
-  public void dispose() {
+  public void dispose()
+  {
     super.dispose();
     if (this.currentEntry != null)
     {
